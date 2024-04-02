@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        #gameInfo {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        #board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            width: 300px;
+            height: 300px;
+            justify-content: center;
+           
+        }
+        .box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-right: 1px solid green;
+            border-bottom:1px solid green ;
+        }
+        .box:nth-child(3n) {
+            border-right: none;
+        }
+        .box:nth-child(6) ~ .box {
+            border-bottom: none;
+        } 
+        
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="gameInfo">
+            <h1>Tic Tac Toe</h1>
+            <p>ff</p>
+            <button>Reset</button>
+        </div>
+        <div id="board">
+            <div class="box" id="1"></div>
+            <div class="box" id="2">x</div>
+            <div class="box" id="3"></div>
+            <div class="box" id="4">c</div>
+            <div class="box" id="5"></div>
+            <div class="box" id="6"></div>
+            <div class="box" id="7"></div>
+            <div class="box" id="8"></div>
+            <div class="box" id="9"></div>
+
+        </div>
+        <script>
+            let PLRONE = 'O';
+            let PLRTWO = 'X';
+            let currentPlayer = PLRONE;
+            let reset = document.querySelector("#gameInfo button").addEventListener("click", () => {
+                document.querySelectorAll('#board .box').forEach(Element => Element.innerText = '')
+                document.querySelector('#gameInfo p').innerText = '';
+            })
+
+            document.querySelectorAll('#board .box').forEach(Element => {
+                Element.addEventListener("click", (e) => {
+                    e.target.innerHTML = currentPlayer;
+                    checkWinner()
+                    if(currentPlayer === PLRONE) currentPlayer = PLRTWO;
+                    else currentPlayer = PLRONE;
+                   
+                })
+            })
+
+            let winningCombos = [
+                [1,2,3],
+                [4,5,6],
+                [6,7,8],
+                [1,5,9],
+                [3,5,7],
+                [1,4,7],
+                [2,5,8],
+                [3,6,9]
+            ];
+
+            let checkWinner = () => {
+                for( let combo of winningCombos) {
+                    let [a,b,c] = combo;
+                    let box1 = document.querySelector(`#board .box[id="${a}"]`).innerHTML;
+        let box2 = document.querySelector(`#board .box[id="${b}"]`).innerHTML;
+        let box3 = document.querySelector(`#board .box[id="${c}"]`).innerHTML;
+
+        if (box1 && box1 === box2 && box2 && box2 === box3)   document.querySelector('#gameInfo p').innerText = currentPlayer;
+                }
+            }
+
+        </script>
+    </div>
+</body>
+</html>
